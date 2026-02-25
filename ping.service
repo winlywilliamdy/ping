@@ -1,0 +1,24 @@
+[Unit]
+Description=Daily API Ping Scheduler
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# ── Change these paths/user to match your Ubuntu setup ──────────
+User=your-linux-username
+WorkingDirectory=/opt/ping
+ExecStart=/usr/bin/python3 /opt/ping/ping.py
+# ─────────────────────────────────────────────────────────────────
+
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=ping-scheduler
+
+# Keep the process running indefinitely (it manages its own sleep loop)
+TimeoutStopSec=10
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
